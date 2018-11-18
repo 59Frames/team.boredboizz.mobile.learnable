@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 abstract class LearnableObject<T extends LearnableObject<T>> {
   int id;
   Future _doneFuture;

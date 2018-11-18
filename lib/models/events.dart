@@ -6,7 +6,7 @@ import 'package:learnable/models/classmodel.dart';
 import 'package:learnable/models/schools.dart';
 import 'package:flutter/material.dart';
 
-class Event extends LearnableObject<Event>{
+class Event extends LearnableObject<Event> {
   EventType eventType;
   Lesson lesson;
   String title = "";
@@ -18,9 +18,15 @@ class Event extends LearnableObject<Event>{
   @override
   Future init(obj) async {
     List<Future> futures = [];
-    futures.add(CachedBase().getEventTypeById(obj['type']).then((eventType) => this.eventType = eventType));
-    futures.add(CachedBase().getLessonById(obj['lesson']).then((lesson) => this.lesson = lesson));
-    futures.add(CachedBase().getMemberById(obj['creator']).then((member) => this.creator = member));
+    futures.add(CachedBase()
+        .getEventTypeById(obj['type'])
+        .then((eventType) => this.eventType = eventType));
+    futures.add(CachedBase()
+        .getLessonById(obj['lesson'])
+        .then((lesson) => this.lesson = lesson));
+    futures.add(CachedBase()
+        .getMemberById(obj['creator'])
+        .then((member) => this.creator = member));
     return await Future.wait(futures);
   }
 
@@ -33,6 +39,7 @@ class Event extends LearnableObject<Event>{
   Event fromMap() {
     this.title = jsonObj['title'];
     this.description = jsonObj['description'];
+    print("Event ${this.id} loaded");
     return this;
   }
 
@@ -48,7 +55,7 @@ class Event extends LearnableObject<Event>{
   }
 }
 
-class EventType extends LearnableObject<EventType>{
+class EventType extends LearnableObject<EventType> {
   String type;
   IconData icon;
   AssetImage image;
@@ -63,7 +70,7 @@ class EventType extends LearnableObject<EventType>{
   }
 
   void _loadImageAndIcon() {
-    switch(this.id){
+    switch (this.id) {
       case 1:
         this.icon = Icons.school;
         break;

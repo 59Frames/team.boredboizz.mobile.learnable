@@ -12,8 +12,8 @@ class TimetableFragment extends StatefulWidget {
   _TimetableFragmentState createState() => _TimetableFragmentState();
 }
 
-class _TimetableFragmentState extends State<TimetableFragment> implements LanguageChangeDetector {
-
+class _TimetableFragmentState extends State<TimetableFragment>
+    implements LanguageChangeDetector {
   int weekday = DateTime.now().weekday <= 5 ? DateTime.now().weekday : 1;
 
   @override
@@ -84,16 +84,19 @@ class _TimetableFragmentState extends State<TimetableFragment> implements Langua
     });
   }
 
-  _onWeekDayTap(value){
+  _onWeekDayTap(value) {
     setState(() {
       weekday = value;
     });
   }
 
   _getDailySchedule(weekday) {
-
-    List<Lesson> lessons = CachedBase().getLessonMap.values
-        .where((lesson) => (lesson.start.weekday == weekday) && (lesson.week == dateUtil.getWeekOfYear()))
+    List<Lesson> lessons = CachedBase()
+        .getLessonMap
+        .values
+        .where((lesson) =>
+            (lesson.start.weekday == weekday) &&
+            (lesson.week == dateUtil.getWeekOfYear()))
         .toList();
 
     lessons.sort((a, b) {
@@ -104,12 +107,11 @@ class _TimetableFragmentState extends State<TimetableFragment> implements Langua
       child: SingleChildScrollView(
         child: Container(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: lessons.map((lesson) => CourseGridTile(
-                lesson: lesson
-              )).toList()
-          ),
+              children: lessons
+                  .map((lesson) => CourseGridTile(lesson: lesson))
+                  .toList()),
         ),
       ),
     );
@@ -122,29 +124,34 @@ class _WeekDayButton extends StatelessWidget {
   final bool isActive;
   final ValueChanged<int> onTap;
 
-  _WeekDayButton({Key key, @required this.weekDay, @required this.onTap, @required this.dayNumber, this.isActive = false}) : super(key: key);
+  _WeekDayButton(
+      {Key key,
+      @required this.weekDay,
+      @required this.onTap,
+      @required this.dayNumber,
+      this.isActive = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        child: InkWell(
-          onTap: _onTap,
-          child: Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: Text(
-                  weekDay.substring(0,1),
-                  style: TextStyle(
+        child: Container(
+      child: InkWell(
+        onTap: _onTap,
+        child: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: Text(
+                weekDay.substring(0, 1),
+                style: TextStyle(
                     fontSize: 24.0,
-                    color: isActive ? colorConfig.PRIMARY_COLOR : colorConfig.DARK_FONT_COLOR
-                  ),
-                ),
-              )
-          ),
-        ),
-      )
-    );
+                    color: isActive
+                        ? colorConfig.PRIMARY_COLOR
+                        : colorConfig.DARK_FONT_COLOR),
+              ),
+            )),
+      ),
+    ));
   }
 
   void _onTap() {
@@ -153,54 +160,45 @@ class _WeekDayButton extends StatelessWidget {
 }
 
 class CourseGridTile extends StatelessWidget {
-
   final Lesson lesson;
 
   const CourseGridTile({Key key, this.lesson}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
+    var occuringEvents = CachedBase().getOccuringEventsInLesson(lesson);
+
     return Container(
       margin: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-      height: (124.0 * lesson.duration),
+      height: (132.0 * lesson.duration),
       child: Card(
-        color: lesson.clazz.school.id == 2 ? colorConfig.PRIMARY_COLOR_LIGHT : colorConfig.PRIMARY_COLOR,
+        color: lesson.clazz.school.id == 2
+            ? colorConfig.PRIMARY_COLOR_LIGHT
+            : colorConfig.PRIMARY_COLOR,
         child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                lesson.course.title,
-                style: TextStyle(
-                    color: colorConfig.BRIGHT_FONT_COLOR
-                ),
-              ),
-              Text(
-                "${dateUtil.getTimeString(lesson.start)} - ${dateUtil.getTimeString(lesson.end)}",
-                style: TextStyle(
-                    color: colorConfig.BRIGHT_FONT_COLOR
-                ),
-              ),
-              Text(
-                "${lesson.teacher.firstname} ${lesson.teacher.lastname}",
-                style: TextStyle(
-                    color: colorConfig.BRIGHT_FONT_COLOR
-                ),
-              ),
-              Text(
-                lesson.room,
-                style: TextStyle(
-                    color: colorConfig.BRIGHT_FONT_COLOR
-                ),
-              ),
-            ],
-          )
-        ),
+            child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              lesson.course.title,
+              style: TextStyle(color: colorConfig.BRIGHT_FONT_COLOR),
+            ),
+            Text(
+              "${dateUtil.getTimeString(lesson.start)} - ${dateUtil.getTimeString(lesson.end)}",
+              style: TextStyle(color: colorConfig.BRIGHT_FONT_COLOR),
+            ),
+            Text(
+              "${lesson.teacher.firstname} ${lesson.teacher.lastname}",
+              style: TextStyle(color: colorConfig.BRIGHT_FONT_COLOR),
+            ),
+            Text(
+              lesson.room,
+              style: TextStyle(color: colorConfig.BRIGHT_FONT_COLOR),
+            ),
+          ],
+        )),
       ),
     );
   }
 }
-
-

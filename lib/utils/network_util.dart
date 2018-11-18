@@ -3,20 +3,19 @@ import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:http/http.dart' as http;
 
-enum NetworkState {ONLINE, OFFLINE}
+enum NetworkState { ONLINE, OFFLINE }
 
 abstract class NetworkStateListener {
   void onNetworkStateChanged(NetworkState state);
 }
 
 class NetworkUtil {
-
   NetworkState _state;
 
   static NetworkUtil _instance = NetworkUtil._internal();
   List<NetworkStateListener> _subscribers;
 
-  NetworkUtil._internal(){
+  NetworkUtil._internal() {
     _subscribers = List();
   }
 
@@ -27,8 +26,8 @@ class NetworkUtil {
   bool isConnected = false;
   var _subscription;
 
-  Future<dynamic> get(String url, {Map<String, String> headers}){
-    if (isConnected){
+  Future<dynamic> get(String url, {Map<String, String> headers}) {
+    if (isConnected) {
       return http.get(url, headers: headers).then((http.Response response) {
         final String res = response.body;
         final int statusCode = response.statusCode;
@@ -39,12 +38,15 @@ class NetworkUtil {
 
         return _decoder.convert(res);
       });
-    } else throw Exception("Error while fetching data. Device is not online");
+    } else
+      throw Exception("Error while fetching data. Device is not online");
   }
 
-  Future<dynamic> post (String url, {Map<String, String> headers, body, encoding}){
-    if (isConnected){
-      return http.post(url, body: body, headers: headers, encoding: encoding)
+  Future<dynamic> post(String url,
+      {Map<String, String> headers, body, encoding}) {
+    if (isConnected) {
+      return http
+          .post(url, body: body, headers: headers, encoding: encoding)
           .then((http.Response response) {
         final String res = response.body;
         final int statusCode = response.statusCode;
@@ -54,23 +56,24 @@ class NetworkUtil {
         }
 
         return _decoder.convert(res);
-      }).catchError((error){
+      }).catchError((error) {
         print(error);
       });
-    } else throw Exception("Error while fetching data. Device is not online");
+    } else
+      throw Exception("Error while fetching data. Device is not online");
   }
 
-  void subscribe(NetworkStateListener subscriber){
+  void subscribe(NetworkStateListener subscriber) {
     _subscribers.add(subscriber);
   }
 
-  void activateConnectionSubscription(){
-    _subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      isConnected = result == ConnectivityResult.none
-          ? false
-          : true;
+  void activateConnectionSubscription() {
+    _subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      isConnected = result == ConnectivityResult.none ? false : true;
 
-      if(!isConnected){
+      if (!isConnected) {
         this._state = NetworkState.OFFLINE;
         notify(NetworkState.OFFLINE);
       } else {
@@ -80,12 +83,13 @@ class NetworkUtil {
     });
   }
 
-  void dispose(){
+  void dispose() {
     _subscription.cancel();
   }
 
-  void notify(NetworkState state){
+  void notify(NetworkState state) {
     print("changing network state to ${state.toString()}");
-    _subscribers.forEach((NetworkStateListener s) => s.onNetworkStateChanged(state));
+    _subscribers
+        .forEach((NetworkStateListener s) => s.onNetworkStateChanged(state));
   }
 }

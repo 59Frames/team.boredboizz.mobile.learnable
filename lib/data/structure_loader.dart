@@ -4,7 +4,7 @@ import 'package:learnable/data/cached_base.dart';
 class StructureLoader {
   Future _doneFuture;
 
-  StructureLoader(){
+  StructureLoader() {
     _doneFuture = init();
   }
 

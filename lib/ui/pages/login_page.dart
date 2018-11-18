@@ -19,7 +19,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
-
   bool _isLoading = false;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -33,7 +32,6 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
 
   @override
   Widget build(BuildContext context) {
-
     final assetsImage = AssetImage('assets/images/axolotl.png');
     final axolotlImage = Image(image: assetsImage);
 
@@ -44,21 +42,15 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
           padding: const EdgeInsets.all(12.0),
           decoration: BoxDecoration(
               color: colorConfig.PRIMARY_COLOR_DARK,
-              border: Border.all(
-                  color: colorConfig.PRIMARY_COLOR_DARK,
-                  width: 2.0
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(8.0))
-          ),
+              border:
+                  Border.all(color: colorConfig.PRIMARY_COLOR_DARK, width: 2.0),
+              borderRadius: BorderRadius.all(Radius.circular(8.0))),
           child: Text(
             localizations.signIn,
-            style: TextStyle(
-                color: colorConfig.BRIGHT_FONT_COLOR,
-                fontSize: 16.0
-            ),
+            style:
+                TextStyle(color: colorConfig.BRIGHT_FONT_COLOR, fontSize: 16.0),
           ),
-        )
-    );
+        ));
 
     var loginForm = Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -70,8 +62,7 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
           style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
-              color: colorConfig.PRIMARY_COLOR_DARK
-          ),
+              color: colorConfig.PRIMARY_COLOR_DARK),
         ),
         Padding(
           padding: const EdgeInsets.all(32.0),
@@ -82,51 +73,60 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                      color: colorConfig.PAGE_BACKGROUND_COLOR.withRed(colorConfig.PAGE_BACKGROUND_COLOR.red+8).withGreen(colorConfig.PAGE_BACKGROUND_COLOR.green+8).withBlue(colorConfig.PAGE_BACKGROUND_COLOR.blue+8)
-                  ),
+                      color: colorConfig.PAGE_BACKGROUND_COLOR
+                          .withRed(colorConfig.PAGE_BACKGROUND_COLOR.red + 8)
+                          .withGreen(
+                              colorConfig.PAGE_BACKGROUND_COLOR.green + 8)
+                          .withBlue(
+                              colorConfig.PAGE_BACKGROUND_COLOR.blue + 8)),
                   padding: const EdgeInsets.all(16.0),
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     onSaved: (val) => _q = val,
                     validator: _validateEmail,
                     style: TextStyle(
-                      fontSize: 18.0,
-                      color: colorConfig.DARK_FONT_COLOR,
-                      decorationColor: colorConfig.DARK_FONT_COLOR
-                    ),
-                    decoration: InputDecoration(
-                      labelText: localizations.email,
-                      labelStyle: TextStyle(
+                        fontSize: 18.0,
                         color: colorConfig.DARK_FONT_COLOR,
-                      ),
-                      icon: Icon(Icons.email, color: colorConfig.PRIMARY_COLOR_DARK,),
-                      errorStyle: TextStyle(
-                        color: colorConfig.BAD_COLOR,
-                      ),
-                      errorMaxLines: 2,
-                      border: InputBorder.none
-                    ),
+                        decorationColor: colorConfig.DARK_FONT_COLOR),
+                    decoration: InputDecoration(
+                        labelText: localizations.email,
+                        labelStyle: TextStyle(
+                          color: colorConfig.DARK_FONT_COLOR,
+                        ),
+                        icon: Icon(
+                          Icons.email,
+                          color: colorConfig.PRIMARY_COLOR_DARK,
+                        ),
+                        errorStyle: TextStyle(
+                          color: colorConfig.BAD_COLOR,
+                        ),
+                        errorMaxLines: 2,
+                        border: InputBorder.none),
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: colorConfig.PAGE_BACKGROUND_COLOR.withRed(colorConfig.PAGE_BACKGROUND_COLOR.red+8).withGreen(colorConfig.PAGE_BACKGROUND_COLOR.green+8).withBlue(colorConfig.PAGE_BACKGROUND_COLOR.blue+8)
-                  ),
+                      color: colorConfig.PAGE_BACKGROUND_COLOR
+                          .withRed(colorConfig.PAGE_BACKGROUND_COLOR.red + 8)
+                          .withGreen(
+                              colorConfig.PAGE_BACKGROUND_COLOR.green + 8)
+                          .withBlue(
+                              colorConfig.PAGE_BACKGROUND_COLOR.blue + 8)),
                   padding: const EdgeInsets.all(16.0),
                   child: TextFormField(
                     onSaved: (val) => _password = val,
                     style: TextStyle(
-                      fontSize: 18.0,
-                      color: colorConfig.DARK_FONT_COLOR
-                    ),
+                        fontSize: 18.0, color: colorConfig.DARK_FONT_COLOR),
                     decoration: InputDecoration(
-                      labelText: localizations.password,
-                      labelStyle: TextStyle(
-                        color: colorConfig.DARK_FONT_COLOR,
-                      ),
-                      icon: Icon(Icons.fingerprint, color: colorConfig.PRIMARY_COLOR_DARK,),
-                      border: InputBorder.none
-                    ),
+                        labelText: localizations.password,
+                        labelStyle: TextStyle(
+                          color: colorConfig.DARK_FONT_COLOR,
+                        ),
+                        icon: Icon(
+                          Icons.fingerprint,
+                          color: colorConfig.PRIMARY_COLOR_DARK,
+                        ),
+                        border: InputBorder.none),
                     obscureText: true,
                   ),
                 ),
@@ -134,9 +134,12 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
             ),
           ),
         ),
-        _isLoading ? CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(colorConfig.PRIMARY_COLOR_DARK),
-        ) : loginBtn
+        _isLoading
+            ? CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    colorConfig.PRIMARY_COLOR_DARK),
+              )
+            : loginBtn
       ],
     );
 
@@ -158,8 +161,8 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
     formKey.currentState.save();
     final form = formKey.currentState;
 
-    if(NetworkUtil().isConnected){
-      if(form.validate()){
+    if (NetworkUtil().isConnected) {
+      if (form.validate()) {
         setState(() => _isLoading = true);
         form.save();
         _presenter.doLogin(_q, _password, 0);
@@ -169,13 +172,11 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
     }
   }
 
-  void _showSnackBar(String text){
-    scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Text(text),
-        backgroundColor: colorConfig.PRIMARY_COLOR_DARK,
-      )
-    );
+  void _showSnackBar(String text) {
+    scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(text),
+      backgroundColor: colorConfig.PRIMARY_COLOR_DARK,
+    ));
   }
 
   String _validateEmail(String value) {
@@ -201,10 +202,9 @@ class _LoginPageState extends State<LoginPage> implements LoginScreenContract {
     await db.deleteUser();
     await db.saveUser();
     setState(() => _isLoading = false);
-    CachedBase().setUp().then((n){
+    CachedBase().setUp().then((n) {
       Navigator.of(context).pushReplacementNamed("/home");
     });
     AuthStateProvider().notify(AuthState.LOGGED_IN);
   }
 }
-

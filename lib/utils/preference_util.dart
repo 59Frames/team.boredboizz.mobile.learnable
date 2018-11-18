@@ -16,8 +16,7 @@ class Pretender {
   }
 
   Future<SharedPreferences> get preferences async {
-    if (_preferences == null)
-      _preferences = await _initPreferences();
+    if (_preferences == null) _preferences = await _initPreferences();
     return _preferences;
   }
 
@@ -29,7 +28,7 @@ class Pretender {
 
   Future<String> getString(String key) async {
     return preferences.then((prefs) {
-       return prefs.getString(key);
+      return prefs.getString(key);
     });
   }
 }

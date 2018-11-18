@@ -15,7 +15,7 @@ class User {
 
   String fullName() => "$firstname $lastname";
 
-  User.fromMap(dynamic obj){
+  User.fromMap(dynamic obj) {
     _instance.id = obj['id'];
     _instance.email = obj['email'];
     _instance.username = obj['username'];
@@ -25,7 +25,7 @@ class User {
     _instance.isTeacher = obj['is_teacher'] == 1 ? true : false;
   }
 
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
     map['id'] = _instance.id;
     map['email'] = _instance.email;
@@ -37,7 +37,7 @@ class User {
     return map;
   }
 
-  void reset(){
+  void reset() {
     _instance.id = null;
     _instance.email = "";
     _instance.username = "";

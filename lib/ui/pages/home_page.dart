@@ -19,7 +19,12 @@ class NavigationItem {
   IconData icon;
   Widget content;
   List<Widget> actions;
-  NavigationItem({@required this.title, @required this.icon, @required this.content, this.actions});
+
+  NavigationItem(
+      {@required this.title,
+      @required this.icon,
+      @required this.content,
+      this.actions});
 }
 
 class HomePage extends StatefulWidget {
@@ -27,8 +32,9 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin implements NetworkStateListener{
-
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin
+    implements NetworkStateListener {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final navigationItems = [
@@ -67,41 +73,45 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: colorConfig.PAGE_BACKGROUND_COLOR,
-      appBar: AppBar(
-        backgroundColor: colorConfig.PRIMARY_COLOR_DARK,
-        title: Text(
-          localizations.applicationName,
-          style: TextStyle(
-            color: colorConfig.BRIGHT_FONT_COLOR
+        key: _scaffoldKey,
+        backgroundColor: colorConfig.PAGE_BACKGROUND_COLOR,
+        appBar: AppBar(
+          backgroundColor: colorConfig.PRIMARY_COLOR_DARK,
+          title: Text(
+            localizations.applicationName,
+            style: TextStyle(color: colorConfig.BRIGHT_FONT_COLOR),
           ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.dehaze,
+                color: colorConfig.BRIGHT_FONT_COLOR,
+              ),
+              onPressed: _openSettings,
+            )
+          ],
+          elevation: 3.0,
+          centerTitle: true,
+          leading: Container(),
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.dehaze, color: colorConfig.BRIGHT_FONT_COLOR,),
-            onPressed: _openSettings,
-          )
-        ],
-        elevation: 3.0,
-        centerTitle: true,
-        leading: Container(),
-      ),
-      endDrawer: AppDrawer(),
-      body: TabBarView(
-        controller: tabController,
-        children: navigationItems.map((item) => item.content).toList(),
-      ),
-      bottomNavigationBar: Material(
-        color: colorConfig.PRIMARY_COLOR_DARK,
-        child: TabBar(
+        endDrawer: AppDrawer(),
+        body: TabBarView(
           controller: tabController,
-          labelPadding: const EdgeInsets.all(4),
-          tabs: navigationItems.map((item) => Tab(icon: Icon(item.icon),)).toList(),
-          indicatorColor: Colors.transparent,
+          children: navigationItems.map((item) => item.content).toList(),
         ),
-      )
-    );
+        bottomNavigationBar: Material(
+          color: colorConfig.PRIMARY_COLOR_DARK,
+          child: TabBar(
+            controller: tabController,
+            labelPadding: const EdgeInsets.all(4),
+            tabs: navigationItems
+                .map((item) => Tab(
+                      icon: Icon(item.icon),
+                    ))
+                .toList(),
+            indicatorColor: Colors.transparent,
+          ),
+        ));
   }
 
   void _openSettings() {
@@ -110,26 +120,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   void onNetworkStateChanged(NetworkState state) {
-    if (state == NetworkState.OFFLINE){
-      _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-          content: Text(localizations.isOffline),
-          backgroundColor: colorConfig.PRIMARY_COLOR_LIGHT,
-          duration: Duration(
-              seconds: 3
-          ),
-        )
-      );
+    if (state == NetworkState.OFFLINE) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(localizations.isOffline),
+        backgroundColor: colorConfig.PRIMARY_COLOR_LIGHT,
+        duration: Duration(seconds: 3),
+      ));
     } else {
-      _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            content: Text(localizations.isOnline),
-            backgroundColor: colorConfig.PRIMARY_COLOR_LIGHT,
-            duration: Duration(
-              seconds: 3
-            ),
-          )
-      );
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(localizations.isOnline),
+        backgroundColor: colorConfig.PRIMARY_COLOR_LIGHT,
+        duration: Duration(seconds: 3),
+      ));
     }
   }
 }
@@ -213,4 +215,3 @@ class _AppDrawerState extends State<AppDrawer> {
     setState(() {});
   }
 }
-

@@ -7,17 +7,13 @@ import 'package:learnable/models/user.dart';
 final localizations = AppLocalizations();
 
 class ProfilePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     final assetsImage = AssetImage('assets/images/axolotl_background.png');
 
-    void _changeEmail() {
-    }
+    void _changeEmail() {}
 
-    void _changePassword() {
-    }
+    void _changePassword() {}
 
     void _onLogout() {
       AuthStateProvider().logout();
@@ -33,109 +29,87 @@ class ProfilePage extends StatelessWidget {
       ),
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: assetsImage,
-            fit: BoxFit.fitWidth,
-            colorFilter: ColorFilter.mode(colorConfig.PRIMARY_COLOR_DARK.withOpacity(0.8), BlendMode.dstATop),
-          )
-        ),
+            image: DecorationImage(
+          image: assetsImage,
+          fit: BoxFit.fitWidth,
+          colorFilter: ColorFilter.mode(
+              colorConfig.PRIMARY_COLOR_DARK.withOpacity(0.8),
+              BlendMode.dstATop),
+        )),
         padding: const EdgeInsets.all(32.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-
             Container(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 User().fullName(),
                 style: TextStyle(
-                    color: colorConfig.BRIGHT_FONT_COLOR,
-                    fontSize: 40.0
-                ),
+                    color: colorConfig.BRIGHT_FONT_COLOR, fontSize: 40.0),
               ),
             ),
-
             Container(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 User().email,
                 style: TextStyle(
-                    color: colorConfig.BRIGHT_FONT_COLOR,
-                    fontSize: 16.0
-                ),
+                    color: colorConfig.BRIGHT_FONT_COLOR, fontSize: 16.0),
               ),
             ),
-
             Container(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 User().username,
                 style: TextStyle(
-                    color: colorConfig.BRIGHT_FONT_COLOR,
-                    fontSize: 16.0
-                ),
+                    color: colorConfig.BRIGHT_FONT_COLOR, fontSize: 16.0),
               ),
             ),
-
             Container(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                onTap: _changePassword,
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                child: Container(
-                  padding: const EdgeInsets.all(12.0),
-                  decoration: BoxDecoration(
-                    color: colorConfig.PRIMARY_COLOR_LIGHT,
-                    border: Border.all(
-                      color: colorConfig.PRIMARY_COLOR_LIGHT,
-                      width: 2.0
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(8.0))
-                  ),
-                  child: Text(
-                    localizations.changePassword,
-                    style: TextStyle(
-                      color: colorConfig.BRIGHT_FONT_COLOR,
-                      fontSize: 16.0
-                    ),
-                  ),
-                )
-              )
-            ),
-
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                    onTap: _changePassword,
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    child: Container(
+                      padding: const EdgeInsets.all(12.0),
+                      decoration: BoxDecoration(
+                          color: colorConfig.PRIMARY_COLOR_LIGHT,
+                          border: Border.all(
+                              color: colorConfig.PRIMARY_COLOR_LIGHT,
+                              width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                      child: Text(
+                        localizations.changePassword,
+                        style: TextStyle(
+                            color: colorConfig.BRIGHT_FONT_COLOR,
+                            fontSize: 16.0),
+                      ),
+                    ))),
             Container(
               padding: const EdgeInsets.fromLTRB(8.0, 2.0, 8.0, 2.0),
               child: Divider(
                 color: colorConfig.BRIGHT_FONT_COLOR,
               ),
             ),
-
             Container(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
-                  onTap: _onLogout,
-                  child: Container(
-                    padding: const EdgeInsets.all(12.0),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: colorConfig.BRIGHT_FONT_COLOR,
-                            width: 2.0
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(8.0))
-                    ),
-                    child: Text(
-                      localizations.signOut,
-                      style: TextStyle(
-                          color: colorConfig.BRIGHT_FONT_COLOR,
-                          fontSize: 16.0
-                      ),
-                    ),
+                onTap: _onLogout,
+                child: Container(
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: colorConfig.BRIGHT_FONT_COLOR, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                  child: Text(
+                    localizations.signOut,
+                    style: TextStyle(
+                        color: colorConfig.BRIGHT_FONT_COLOR, fontSize: 16.0),
                   ),
+                ),
               ),
             ),
-
           ],
         ),
       ),

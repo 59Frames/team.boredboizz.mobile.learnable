@@ -13,8 +13,8 @@ class ClassFragment extends StatefulWidget {
   _ClassFragmentState createState() => _ClassFragmentState();
 }
 
-class _ClassFragmentState extends State<ClassFragment> implements LanguageChangeDetector {
-
+class _ClassFragmentState extends State<ClassFragment>
+    implements LanguageChangeDetector {
   Class clazz;
 
   @override
@@ -34,19 +34,17 @@ class _ClassFragmentState extends State<ClassFragment> implements LanguageChange
   Widget build(BuildContext context) {
     print("class fragment has been build");
     return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            color: colorConfig.PRIMARY_COLOR_DARK,
-            width: double.infinity,
-            child: ListTile(
+        child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Container(
+          color: colorConfig.PRIMARY_COLOR_DARK,
+          width: double.infinity,
+          child: ListTile(
               title: Text(
                 clazz.title,
                 style: TextStyle(
-                  color: colorConfig.BRIGHT_FONT_COLOR,
-                  fontSize: 24.0
-                ),
+                    color: colorConfig.BRIGHT_FONT_COLOR, fontSize: 24.0),
               ),
               trailing: DropdownButton(
                 hint: Row(
@@ -54,9 +52,7 @@ class _ClassFragmentState extends State<ClassFragment> implements LanguageChange
                   children: <Widget>[
                     Text(
                       localizations.classes,
-                      style: TextStyle(
-                          color: colorConfig.PRIMARY_ICON_COLOR
-                      ),
+                      style: TextStyle(color: colorConfig.PRIMARY_ICON_COLOR),
                     ),
                     Icon(
                       Icons.arrow_drop_down,
@@ -67,15 +63,13 @@ class _ClassFragmentState extends State<ClassFragment> implements LanguageChange
                 items: _getClassDropDownMenuItems(),
                 onChanged: _onClassDropDownChange,
                 iconSize: 0.0,
-              )
-            ),
-          ),
-          Expanded(
-            child: DetailedClass(clazz),
-          )
-        ],
-      )
-    );
+              )),
+        ),
+        Expanded(
+          child: DetailedClass(clazz),
+        )
+      ],
+    ));
   }
 
   void _onClassDropDownChange(value) {
@@ -87,10 +81,11 @@ class _ClassFragmentState extends State<ClassFragment> implements LanguageChange
   _getClassDropDownMenuItems() {
     var items = <DropdownMenuItem>[];
 
-    CachedBase().getClassMap.forEach((id, clazz){
-      items.add(
-          DropdownMenuItem(child: Text(clazz.title), value: id,)
-      );
+    CachedBase().getClassMap.forEach((id, clazz) {
+      items.add(DropdownMenuItem(
+        child: Text(clazz.title),
+        value: id,
+      ));
     });
 
     return items;
@@ -111,12 +106,8 @@ class DetailedClass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     var teacherListView = Container(
-      padding: const EdgeInsets.only(
-          top: 4.0,
-          bottom: 4.0
-      ),
+      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
       width: double.infinity,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -134,7 +125,6 @@ class DetailedClass extends StatelessWidget {
       ),
     );
 
-
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -149,8 +139,7 @@ class DetailedClass extends StatelessWidget {
                 title: localizations.classmates,
                 child: memberListView,
               ),
-            ]
-        ),
+            ]),
       ),
     );
   }
@@ -158,22 +147,20 @@ class DetailedClass extends StatelessWidget {
   _getMembers() {
     var members = <ListTile>[];
 
-    clazz.members.forEach((id, member){
-      members.add(
-          ListTile(
-            leading: CircleAvatar(
-              child: Text(
-                "${member.firstname.substring(0, 1)}${member.lastname.substring(0, 1)}",
-                style: TextStyle(
-                    fontSize: 16.0
-                ),
-              ),
-              backgroundColor: member.id == User().id ? colorConfig.PRIMARY_COLOR_DARK : colorConfig.PRIMARY_COLOR,
-              foregroundColor: colorConfig.BRIGHT_FONT_COLOR,
-            ),
-            title: Text("${member.firstname} ${member.lastname}"),
-          )
-      );
+    clazz.members.forEach((id, member) {
+      members.add(ListTile(
+        leading: CircleAvatar(
+          child: Text(
+            "${member.firstname.substring(0, 1)}${member.lastname.substring(0, 1)}",
+            style: TextStyle(fontSize: 16.0),
+          ),
+          backgroundColor: member.id == User().id
+              ? colorConfig.PRIMARY_COLOR_DARK
+              : colorConfig.PRIMARY_COLOR,
+          foregroundColor: colorConfig.BRIGHT_FONT_COLOR,
+        ),
+        title: Text("${member.firstname} ${member.lastname}"),
+      ));
     });
 
     return members;
@@ -182,7 +169,7 @@ class DetailedClass extends StatelessWidget {
   _getTeachers() {
     var teachers = <Widget>[];
 
-    clazz.teachers.forEach((id, teacher){
+    clazz.teachers.forEach((id, teacher) {
       teachers.add(TeacherInfoTile(teacher));
     });
 
@@ -191,7 +178,6 @@ class DetailedClass extends StatelessWidget {
 }
 
 class DetailedClassInfoTile extends StatelessWidget {
-
   final String title;
   final Widget child;
 
@@ -200,29 +186,25 @@ class DetailedClassInfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 24.0),
-              alignment: Alignment.centerLeft,
-              child: Text(
-                title,
-                style: TextStyle(
-                  color: colorConfig.DARK_FONT_COLOR,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w600
-                ),
-              ),
-            ),
-            child,
-          ]
-      ),
+      child: Column(children: <Widget>[
+        Container(
+          padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 24.0),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            title,
+            style: TextStyle(
+                color: colorConfig.DARK_FONT_COLOR,
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600),
+          ),
+        ),
+        child,
+      ]),
     );
   }
 }
 
 class TeacherInfoTile extends StatelessWidget {
-
   final Teacher teacher;
 
   TeacherInfoTile(this.teacher);
@@ -233,25 +215,26 @@ class TeacherInfoTile extends StatelessWidget {
       onTap: _onTap,
       leading: CircleAvatar(
         child: Icon(Icons.school),
-        backgroundColor: teacher.id == User().id ? colorConfig.PRIMARY_COLOR_DARK : colorConfig.PRIMARY_COLOR,
+        backgroundColor: teacher.id == User().id
+            ? colorConfig.PRIMARY_COLOR_DARK
+            : colorConfig.PRIMARY_COLOR,
         foregroundColor: colorConfig.BRIGHT_FONT_COLOR,
       ),
       title: Text(
         "${teacher.firstname} ${teacher.lastname}",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-        ),
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Text(
-          "${teacher.email}",
+        "${teacher.email}",
       ),
     );
   }
 
   void _onTap() async {
     String url = 'mailto:${teacher.email}?subject=Information&body=Guten%20Tag';
-    if (await canLaunch(url)){
+    if (await canLaunch(url)) {
       await launch(url);
-    } else print("Url not launchable");
+    } else
+      print("Url not launchable");
   }
 }

@@ -12,9 +12,7 @@ import 'package:background_fetch/background_fetch.dart';
 import 'package:learnable/utils/notification_util.dart';
 
 void main() {
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp
-  ]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(LearnableApp());
   BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
 }
@@ -25,13 +23,13 @@ void backgroundFetchHeadlessTask() async {
   BackgroundFetch.finish();
 }
 
-
 class LearnableApp extends StatefulWidget {
   @override
   _LearnableAppState createState() => _LearnableAppState();
 }
 
-class _LearnableAppState extends State<LearnableApp> with WidgetsBindingObserver {
+class _LearnableAppState extends State<LearnableApp>
+    with WidgetsBindingObserver {
   List<DateTime> _events = [];
   int _status = 0;
 
@@ -55,11 +53,11 @@ class _LearnableAppState extends State<LearnableApp> with WidgetsBindingObserver
 
   Future<void> initPlatformState() async {
     // Configure BackgroundFetch.
-    BackgroundFetch.configure(BackgroundFetchConfig(
-        minimumFetchInterval: 15,
-        stopOnTerminate: false,
-        enableHeadless: true
-    ), () async {
+    BackgroundFetch.configure(
+        BackgroundFetchConfig(
+            minimumFetchInterval: 15,
+            stopOnTerminate: false,
+            enableHeadless: true), () async {
       // This is the fetch-event callback.
       print('[BackgroundFetch] Event received');
 
@@ -98,9 +96,7 @@ class _LearnableAppState extends State<LearnableApp> with WidgetsBindingObserver
         primaryColorDark: colorConfig.PRIMARY_COLOR,
         primaryColor: colorConfig.PRIMARY_COLOR_DARK,
         primaryColorLight: colorConfig.PRIMARY_COLOR_LIGHT,
-        primaryIconTheme: IconThemeData(
-          color: colorConfig.PRIMARY_ICON_COLOR
-        ),
+        primaryIconTheme: IconThemeData(color: colorConfig.PRIMARY_ICON_COLOR),
       ),
       home: ConfigPage(),
       routes: routes,
@@ -111,8 +107,7 @@ class _LearnableAppState extends State<LearnableApp> with WidgetsBindingObserver
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
-    if (state == AppLifecycleState.inactive)
-      CachedBase().persist();
+    if (state == AppLifecycleState.inactive) CachedBase().persist();
 
     print("AppLifecycleState changed to $state");
   }
@@ -120,17 +115,18 @@ class _LearnableAppState extends State<LearnableApp> with WidgetsBindingObserver
 
 void checkForNotifiableEventsAndNotify() {
   CachedBase().buildWithNoPush().then((n) {
-
     var events = CachedBase().getEventMap;
 
-    DateTime notifiableDay = DateTime.now().subtract(Duration(days: 3));
+    // TODO 18.11.2018 Lesson is empty
+
+    DateTime notifiableDay = DateTime.now().add(Duration(days: 2));
     events.forEach((id, event) {
       if (event.lesson.start.day == notifiableDay.day) {
-        Notifier().notify("${event.title}", "${event.description}", Random().nextInt(1000));
+        Notifier().notify(
+            "${event.title}", "${event.description}", Random().nextInt(1000));
       }
     });
 
     CachedBase().clear();
   });
-
 }

@@ -20,9 +20,15 @@ class Lesson extends LearnableObject<Lesson> {
   @override
   Future init(dynamic obj) async {
     List<Future> futures = [];
-    futures.add(CachedBase().getCourseById(obj['course']).then((course) => this.course = course));
-    futures.add(CachedBase().getClassById(obj['class']).then((clazz) => this.clazz = clazz));
-    futures.add(CachedBase().getTeacherById(obj['teacher']).then((teacher) => this.teacher = teacher));
+    futures.add(CachedBase()
+        .getCourseById(obj['course'])
+        .then((course) => this.course = course));
+    futures.add(CachedBase()
+        .getClassById(obj['class'])
+        .then((clazz) => this.clazz = clazz));
+    futures.add(CachedBase()
+        .getTeacherById(obj['teacher'])
+        .then((teacher) => this.teacher = teacher));
     return await Future.wait(futures);
   }
 
@@ -46,7 +52,7 @@ class Lesson extends LearnableObject<Lesson> {
   }
 
   @override
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['id'] = id;
     map['course'] = course.id;
@@ -60,17 +66,15 @@ class Lesson extends LearnableObject<Lesson> {
     map['week'] = week;
     return map;
   }
-
 }
 
 class Course extends LearnableObject<Course> {
   String title = "";
   String short = "";
 
-  Course(obj):super(obj);
+  Course(obj) : super(obj);
 
-
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['id'] = this.id;
     map['title'] = this.title;
@@ -104,9 +108,9 @@ class Class extends LearnableObject<Class> {
   Map<int, Member> members = Map();
   Map<int, Teacher> teachers = Map();
 
-  Class(obj):super(obj);
+  Class(obj) : super(obj);
 
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['id'] = this.id;
     map['school'] = this.school.id;
@@ -125,10 +129,18 @@ class Class extends LearnableObject<Class> {
   @override
   Future init(obj) async {
     List<Future> futures = [];
-    futures.add(CachedBase().getSchoolById(obj['school']).then((school) => this.school = school));
-    futures.add(CachedBase().getTeacherById(obj['teacher']).then((teacher) => this.teacher = teacher));
-    futures.add(CachedBase().getClassMembers(this.id).then((members) => this.members = members));
-    futures.add(CachedBase().getClassTeachers(this.id).then((teachers) => this.teachers = teachers));
+    futures.add(CachedBase()
+        .getSchoolById(obj['school'])
+        .then((school) => this.school = school));
+    futures.add(CachedBase()
+        .getTeacherById(obj['teacher'])
+        .then((teacher) => this.teacher = teacher));
+    futures.add(CachedBase()
+        .getClassMembers(this.id)
+        .then((members) => this.members = members));
+    futures.add(CachedBase()
+        .getClassTeachers(this.id)
+        .then((teachers) => this.teachers = teachers));
     return await Future.wait(futures);
   }
 
@@ -142,9 +154,9 @@ class School extends LearnableObject<School> {
   int location;
   String title = "";
 
-  School(obj):super(obj);
+  School(obj) : super(obj);
 
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['id'] = this.id;
     map['location'] = this.location;
@@ -177,9 +189,9 @@ class Teacher extends LearnableObject<Teacher> {
   String firstname = "";
   String lastname = "";
 
-  Teacher(obj):super(obj);
+  Teacher(obj) : super(obj);
 
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['id'] = this.id;
     map['email'] = this.email;
@@ -218,7 +230,7 @@ class Member extends LearnableObject<Member> {
 
   Member(obj) : super(obj);
 
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['id'] = this.id;
     map['email'] = this.email;

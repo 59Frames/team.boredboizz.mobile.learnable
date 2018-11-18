@@ -13,11 +13,11 @@ class ConfigPage extends StatefulWidget {
   _ConfigPageState createState() => _ConfigPageState();
 }
 
-class _ConfigPageState extends State<ConfigPage> implements BaseNotifier, AuthStateListener {
-
+class _ConfigPageState extends State<ConfigPage>
+    implements BaseNotifier, AuthStateListener {
   var authStateProvider = AuthStateProvider();
 
-  _ConfigPageState(){
+  _ConfigPageState() {
     authStateProvider.subscribe(this);
   }
 
@@ -33,23 +33,19 @@ class _ConfigPageState extends State<ConfigPage> implements BaseNotifier, AuthSt
       backgroundColor: Theme.of(context).primaryColor,
       body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  AppLocalizations().applicationName,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32.0
-                  ),
-                ),
-              ),
-            ],
-          )
-      ),
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              AppLocalizations().applicationName,
+              style: TextStyle(color: Colors.white, fontSize: 32.0),
+            ),
+          ),
+        ],
+      )),
     );
   }
 
@@ -57,12 +53,12 @@ class _ConfigPageState extends State<ConfigPage> implements BaseNotifier, AuthSt
     SharedPreferences prefs = await Pretender().preferences;
     var connectivityResult = await (Connectivity().checkConnectivity());
 
-    NetworkUtil().isConnected = connectivityResult == ConnectivityResult.none
-        ? false
-        : true;
+    NetworkUtil().isConnected =
+        connectivityResult == ConnectivityResult.none ? false : true;
 
     var languageCode = prefs.getString("languageCode");
-    AppLocalizations().setLanguageCode(languageCode != null ? languageCode : 'de');
+    AppLocalizations()
+        .setLanguageCode(languageCode != null ? languageCode : 'de');
 
     RestAPI();
   }
@@ -72,18 +68,21 @@ class _ConfigPageState extends State<ConfigPage> implements BaseNotifier, AuthSt
     print("Database is ready to use");
     try {
       Navigator.of(context).pushReplacementNamed("/home");
-    } catch (exception) { print(exception.toString()); }
+    } catch (exception) {
+      print(exception.toString());
+    }
   }
 
   @override
   void onAuthStateChanged(AuthState state) {
     try {
-      if (state == AuthState.LOGGED_IN){
+      if (state == AuthState.LOGGED_IN) {
         CachedBase().addNotifier(this);
         CachedBase().build();
-      }
-      else
+      } else
         Navigator.of(context).pushReplacementNamed("/login");
-    } catch (exception) { print(exception.toString()); }
+    } catch (exception) {
+      print(exception.toString());
+    }
   }
 }

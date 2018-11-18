@@ -4,7 +4,7 @@ import 'package:learnable/models/user.dart';
 
 import 'data/database_helper.dart';
 
-enum AuthState {LOGGED_IN, LOGGED_OUT }
+enum AuthState { LOGGED_IN, LOGGED_OUT }
 
 abstract class AuthStateListener {
   void onAuthStateChanged(AuthState state);
@@ -28,11 +28,10 @@ class AuthStateProvider {
 
     var isLoggedIn = await db.isLoggedIn();
 
-    if (isLoggedIn){
+    if (isLoggedIn) {
       _isLoggedIn = true;
       notify(AuthState.LOGGED_IN);
-    }
-    else{
+    } else {
       _isLoggedIn = false;
       notify(AuthState.LOGGED_OUT);
     }
@@ -42,23 +41,22 @@ class AuthStateProvider {
     return _isLoggedIn;
   }
 
-  void subscribe(AuthStateListener subscriber){
+  void subscribe(AuthStateListener subscriber) {
     _subscribers.add(subscriber);
   }
 
-  void dispose(AuthStateListener subscriber){
-    for (var s in _subscribers){
-      if (s == subscriber)
-        _subscribers.remove(s);
+  void dispose(AuthStateListener subscriber) {
+    for (var s in _subscribers) {
+      if (s == subscriber) _subscribers.remove(s);
     }
   }
 
-  void notify(AuthState state){
+  void notify(AuthState state) {
     print("changing auth state to ${state.toString()}");
     _subscribers.forEach((AuthStateListener s) => s.onAuthStateChanged(state));
   }
 
-  void logout(){
+  void logout() {
     User().reset();
     CachedBase().clear();
     DatabaseHelper().deleteUser();
