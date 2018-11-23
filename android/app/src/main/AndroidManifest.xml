@@ -16,7 +16,7 @@
     <application
         tools:replace="android:label"
         android:name="io.flutter.app.FlutterApplication"
-        android:label="learnable"
+        android:label="Learnable"
         android:icon="@mipmap/app_icon">
         <activity
             android:name=".MainActivity"

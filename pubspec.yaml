@@ -30,7 +30,6 @@ dependencies:
   flutter_calendar:
   connectivity:
   url_launcher:
-  background_fetch:
 
 dev_dependencies:
   flutter_test:

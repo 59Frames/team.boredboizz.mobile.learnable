@@ -113,6 +113,7 @@ class CachedBase {
 
   /// Gets called when a new User has logged in to load every user dependent Data
   Future setUp() async {
+    clear();
     if (_networkUtil.isConnected) {
       List<Future> futures = [];
       futures.add(requestAllCourses());

@@ -61,12 +61,14 @@ class _EventFragmentState extends State<EventFragment> {
   }
 
   List<Widget> _getEvents() {
+    final date = DateTime.now().subtract(Duration(days: 1));
+
     var _listItems = <Widget>[];
 
     Set<String> _dateSet = Set();
 
     _eventMap.forEach((id, event) {
-      if (event.lesson != null)
+      if (event.lesson != null && event.lesson.start.isAfter(date))
         _dateSet.add(dateUtil.getShortDateString(event.lesson.start));
     });
 
@@ -77,7 +79,7 @@ class _EventFragmentState extends State<EventFragment> {
       List<Widget> _tiles = List();
 
       _eventMap.forEach((id, event) {
-        if (event.lesson != null &&
+        if (event.lesson != null && event.lesson.start.isAfter(date) &&
             dateUtil.isOnSameDayShort(_date, event.lesson.start))
           _tiles.add(_EventTile(event));
       });
@@ -215,11 +217,19 @@ class _EventTile extends StatelessWidget {
                     description:
                         _event.creator != null ? _event.creator.email : "",
                   ),
+                  RaisedButton(
+                    child: Text("Notify"),
+                    onPressed: _notify,
+                  ),
                 ],
               ),
             ),
           );
         });
+  }
+
+  void _notify() {
+    Notifier().notify(_event.title, _event.description, 0);
   }
 }
 
